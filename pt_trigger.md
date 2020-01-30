@@ -4,19 +4,19 @@
 
 ### Description of tutorial
 
-We will be implementing an automated and tested workflow for creating point geometry following the OGC conventions with PostGIS. 
+We will be implementing an automated and tested workflow for creating a point geometry following the OGC conventions with PostGIS. 
 
-We often have given coordinates of a point of interest, for example a list of geocoded addresses, and converting them to Point Geometry enables easy integration with all software (web or on-premise) that oblige to the OGC standard.
+We often have given coordinates of a point of interest, for example a list of geocoded addresses. Converting them to Point Geometry enables easy integration with all software (web or on-premise) that oblige to the OGC standard.
 
-This procedure is often available in many software packages. The benefit of our approach is having an infrastructure that will automatically execute the procedure, store and make the data available for rendering instantly. No clicking needed. 
+This procedure is often available in many software packages. The benefit of our approach is having an infrastructure that will automatically execute the procedure, store and make the data instantly available for rendering... without a single click.
 
 This tutorial can also serve as a demonstration on using a test-driven approach for a more advanced feature: implementing a SQL trigger with spatial data.
 
 ### Tutorial Requirements
 
-This tutorial requires you have PostgreSQL with the PostGIS extension installed on your computer of a given serveur. 
+This tutorial requires you have PostgreSQL with the PostGIS extension installed on your computer or on a remote server. 
 
-You will also need Python3 for this tutorial. If your still on python2, just get off it already.
+You will also need Python3 for this tutorial. If you're still on Python2, it is not longer supported by the Python Software foundation and you should upgrade to Python3.
 
 Other python dependencies will be installed during the tutorial.
 
@@ -24,13 +24,15 @@ Working knowledge of Python and SQL is highly recommended.
 
 ### A Quick Word on TDD
 
-Test Driven Development is a software approach where a test is first written for an application code. 
+Test Driven Development is a software approach where a test is first written before any application code. 
 
 Having tests defines when a feature is actually done. It serves as a living technical specification of your application code. 
 
-At the end of an iteration of your application using TDD, you not only have a working application but a way to continually and automatically test if it is still in fact behaving in the intented manner. 
+At the end of an iteration of your application using TDD, you not only have a working application but a way to continually and automatically test if it is still behaving in the intented manner. 
 
 There many other benefits to TDD if you would like a more gentle introduction you can sign up to receive my [**Introduction to GeoTDD with Python**](zacharydeziel.com).
+
+The type of testing done is this tutorial is referred to as integration testing. Integration tests rely on an exterior system to be executed. In our case, we are relying on the PostGIS database. 
 
 ### What is PostGIS?
 
@@ -106,9 +108,9 @@ Best practice conventions can be found in the [pytest docs](https://docs.pytest.
 
 ### Environment variables
 
-To avoid having a file containing our credentials, we are going to define environment variables that we will use to connect our futur database. That's right, we are deciding preemtively what those should be. 
+To avoid having a file containing our credentials, we are going to define environment variables that we will use to connect to our future database. That's right, we are deciding preemtively what those should be. 
 
-But... hold that urge to export your environment variables! Obey the testing goat.
+But... hold that urge to directly export your environment variables! Obey the testing goat.
 
 *tests/test_conn_vars.py*
 ```python
@@ -171,13 +173,13 @@ Our tests passed as expected!
 
 ### Why write test before any application code
 
-The main reason we are writing our tests before and not after application code is to be certain that are tests are actually testing the intented behavior of the code.
+The main reason we are writing our tests before and not after application code is to be certain that our tests are actually testing the intented behavior of the code.
 
-If we would write our tests after that application code, they could be passing but we could not guarantee (in 100% of cases) that they are passing because our code code is behaving as expected or that our tests are not actually testing the intented behavior.
+If we would write our tests after that application code, they could be passing but we could not guarantee (in 100% of cases) that they are passing because our code is behaving as expected or that our tests are not actually testing the intented behavior.
 
 ### Database connection
 
-Income *psycopg* the most popular postgres binding in Python. *Psycopg* is actually used in Django's Object Relational Mapper (ORM) when using a PostgreSQL database.
+Income *psycopg* the most popular postgres binding in Python. Psycopg is used to pass SQL commands to a PostgreSQL database. *Psycopg* is actually used in Django's Object Relational Mapper (ORM) when using a PostgreSQL database.
 
 We can install the dependency with:
 
@@ -188,7 +190,7 @@ pip install psycopg2-binary
 
 *Always look up pypi repositories before throwing them into your project dependencies blindly.*
 
-Psycopg is used to pass SQL commands to a PostgreSQL database. If you've ever spent a lot of time writing SQL insertions to test the integrity of your database, you not that it is quite redundant, simple and boring. We can automate this constraint testing with psycopg.
+If you've ever spent a lot of time writing SQL insertions to test the integrity of your database, you know that it is quite redundant, simple and boring. We can automate this constraint testing with psycopg.
 
 But first, we must test that we can connect to a database given our environmental variables.
 
@@ -326,7 +328,7 @@ tests/test_db_postgis.py .                                                      
 ============================================================================= 3 passed in 0.10s ==============================================================================
 ```
 
-Passed! Alright a small refactor we could do is change our list comprehension with the extension names to a tuple:
+Passed! Alright a small refactor we could do is change our list comprehension with the extension names to a tuple to make it non-mutable:
 
 tests/test_db_postgis.py
 ```python
@@ -639,16 +641,16 @@ And rerun the tests one last time!
 
 ## Conclusion
 
-This tutorial was meant to presenting a cleaner way to building up your applications. The difficulty in TDD is in breaking our hacky habits of piling one iteration over another. 
+This tutorial was meant to present a cleaner way for building up your applications. The difficulty in TDD is breaking our hacky habits of piling one iteration over another of writing application code until it simply works (without knowing why it works). 
 
 For those used to writing pseudo-code, the process might seem more intuitive. It is similar in the preemtive way we go about the craft of writing a program. The main difference with TDD is that we do not simply rely on plain text as specification of our program, we write automated tests to guarantee are code is behaving in the expected behavior.
 
-You might of found this tutorial on the heavier size if you did not have any previous experience with PostGIS. Hopefully, it opened your eyes to the incredible features PostGIS has to offer.
+You might of found this tutorial on the heavier side if you did not have any previous experience with PostGIS. Hopefully, it opened your eyes to the incredible features PostGIS has to offer.
 
-*The final version of this tutorial is available on [github](*
+*The final version of this tutorial is available on [github](https://github.com/zacharyDez/geotdd_pt_geom_trigger)
 
 How did you find this tutorial? What are your first impressions of TDD? Any anger or ressentment?
 
-If you feel like getting a little more background on TDD you can check out my post on the [Whys of TDD](zacharydeziel.com/whys-of-tdd).
+If you feel like getting a little more background on TDD you can check out my post on the [Whys of TDD](https://github.com/zacharyDez/whys-of-tdd).
 
 Any comments or questions? Do not hesitate to reach out.
