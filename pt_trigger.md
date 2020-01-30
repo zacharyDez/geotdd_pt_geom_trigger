@@ -651,6 +651,6 @@ You might of found this tutorial on the heavier side if you did not have any pre
 
 How did you find this tutorial? What are your first impressions of TDD? Any anger or ressentment?
 
-If you feel like getting a little more background on TDD you can check out my post on the [Whys of TDD](https://github.com/zacharyDez/whys-of-tdd).
+If you feel like getting a little more background on TDD you can check out my post on the [Whys of TDD](https://github.com/zacharyDez/whys_of_testing).
 
 Any comments or questions? Do not hesitate to reach out.
